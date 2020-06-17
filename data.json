@@ -1,0 +1,17 @@
+[
+    {
+        "name": "name0",
+        "type": "type0",
+        "color": "#ff0000"
+    },
+    {
+        "name": "name1",
+        "type": "type1",
+        "color": "#ffff00"
+    },
+    {
+        "name": "name2",
+        "type": "type2",
+        "color": "#0000ff"
+    }
+]
