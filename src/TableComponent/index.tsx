@@ -5,12 +5,7 @@ import CellComponent from '../CellComponent';
 export default function TableComponent() {
     const dataFromStorage = localStorage.getItem('tableData')
     const [tableData, setTableData] = React.useState(dataFromStorage ? JSON.parse(dataFromStorage) : [])
-    let tableHeader: string[] = []
-    if (tableData.length > 0) {
-        for (let key in tableData[0]) {
-            tableHeader.push(key)
-        }
-    }
+    const tableHeader = tableData.length > 0 ? Object.keys(tableData[0]) : []
 
     const onChangeInCell = ({target: {value}}: any, index: number, index2: number) => { // В аргументе ф-ции вложеная диструкткризация. Аргумент можно заменить на обычную переменную, например "е". Тогда далее в ф-ции сделует заменить "value" на "e.target.value"
         setTableData( (prevTableData: any) => {
@@ -31,10 +26,7 @@ export default function TableComponent() {
         <tbody>
             {
                 tableData.map((item: any, index: number) => {
-                    const cells = []
-                    for (let key in item) {
-                        cells.push(item[key])
-                    }
+                    const cells = Object.keys(item).map((property: string) => item[property])
                     return <tr key={index}>
                         <th> { index } </th>
                         {
