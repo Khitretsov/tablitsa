@@ -39,7 +39,7 @@ class App extends React.Component<any, any> {
     super(props)
     const data = localStorage.getItem('tableData')
     this.state = {
-      tableData: !!data ? JSON.parse(data) : [],
+      tableData: !!data ? data : '',
     }
   }
 
@@ -51,12 +51,12 @@ class App extends React.Component<any, any> {
           <input {...{
             type: 'file',
             accept: '.json',
-            onChange: (data: any) => {
+            onChange: (event: any) => {
               const reader = new FileReader()
-              reader.readAsText(data.target.files[0])
-              const callback = (array: any) => {
-                localStorage.setItem('tableData', array)
-                this.setState((state: any) => ({...state, tableData: JSON.parse(array)}), () => {
+              reader.readAsText(event.target.files[0])
+              const callback = (result: any) => {
+                localStorage.setItem('tableData', result)
+                this.setState((state: any) => ({...state, tableData: result}), () => {
                 })
               }
               
