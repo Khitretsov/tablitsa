@@ -1,0 +1,26 @@
+.modal-window-background {
+    z-index: 100;
+    position: fixed;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.4);
+        
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.modal-window-content {
+    height: 20vh;
+    width: 60vh;
+    background-color: white;
+    padding: 5px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
