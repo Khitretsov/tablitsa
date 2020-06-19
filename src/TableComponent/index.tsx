@@ -4,12 +4,13 @@ import CellComponent from '../CellComponent';
 import ModalWindowWrapperComponent from '../ModalWindowWrapperComponent';
 import FormComponent from '../FormComponent';
 
+let rowNumberForDeleting = 0
+
 export default function TableComponent() {
     const dataFromStorage = localStorage.getItem('tableData')
     const [isAddModalShow, setAddModalShowing] = React.useState(false)
     const [isDeleteModalShow, setDeleteModalShowing] = React.useState(false)
     const [tableData, setTableData] = React.useState(dataFromStorage ? JSON.parse(dataFromStorage) : [])
-    let rowNumberForDeleting = 0
     const tableHeader = tableData.length > 0 ? Object.keys(tableData[0]) : []
 
     const onChangeInCell = (value: string, index: number, index2: number) => { // В аргументе ф-ции вложеная диструкткризация. Аргумент можно заменить на обычную переменную, например "е". Тогда далее в ф-ции сделует заменить "value" на "e.target.value"
