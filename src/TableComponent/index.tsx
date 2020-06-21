@@ -3,6 +3,7 @@ import './styles/style.css';
 import CellComponent from '../CellComponent';
 import ModalWindowWrapperComponent from '../ModalWindowWrapperComponent';
 import FormComponent from '../FormComponent';
+import DownloadButtonComponent from '../DownloadButtonComponent';
 
 let rowNumberForDeleting = 0
 
@@ -21,6 +22,12 @@ export default function TableComponent() {
     }
 
     return <>
+        <button {...{
+            onClick: () => {
+                localStorage.setItem('tableData', JSON.stringify(tableData))
+            }
+        }}> Сохранить внесённые изменения </button>
+        <DownloadButtonComponent data={ tableData } />
         <table>
             <thead>
                 <tr>
@@ -71,6 +78,7 @@ export default function TableComponent() {
                 </tr>
             </tfoot>
         </table>
+        {/* Ниже блоки модальных окон */}
         {
             isAddModalShow && <ModalWindowWrapperComponent {...{
                 title: 'Добавление новой записи',

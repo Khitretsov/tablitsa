@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles/App.css';
+import './styles/style.css';
 import TableComponent from '../TableComponent'
 
 class MainModule extends React.Component<any, any> {
@@ -15,10 +15,11 @@ class MainModule extends React.Component<any, any> {
     return <div className="App">
     <header className="App-header">
       {
-        this.state.tableData.length === 0 && (
+        this.state.tableData.length === 0 ? (
           <input {...{
             type: 'file',
             accept: '.json',
+            content: 'sdfsdfsdfsdfsdf',
             onChange: (event: any) => {
               const reader = new FileReader()
               reader.readAsText(event.target.files[0])
@@ -36,15 +37,24 @@ class MainModule extends React.Component<any, any> {
                 console.log(reader.error);
               };
             }
-          }}/>
+          }} />
+        ) : (
+          <button {...{
+            onClick: () => {
+              localStorage.removeItem('tableData')
+              this.setState({tableData: ''})
+            }
+          }}> öбнулить данные </button>
         )
       }
     </header>
-    {
-      this.state.tableData.length > 0 && (
-        <TableComponent />
-      )
-    }
+    <div className="content">
+      {
+        this.state.tableData.length > 0 && (
+          <TableComponent />
+        )
+      }
+    </div>
   </div>
   }
 }
