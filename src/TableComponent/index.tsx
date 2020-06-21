@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './styles/style.css';
 import CellComponent from '../CellComponent';
 import ModalWindowWrapperComponent from '../ModalWindowWrapperComponent';
@@ -13,6 +13,7 @@ export default function TableComponent() {
     const [isDeleteModalShow, setDeleteModalShowing] = React.useState(false)
     const [tableData, setTableData] = React.useState(dataFromStorage ? JSON.parse(dataFromStorage) : [])
     const tableHeader = tableData.length > 0 ? Object.keys(tableData[0]) : []
+    const [cellsForChange, setCellsForChange] = useState<Array<null | number>>([null, null])
 
     const onChangeInCell = (value: string, index: number, index2: number) => { // В аргументе ф-ции вложеная диструкткризация. Аргумент можно заменить на обычную переменную, например "е". Тогда далее в ф-ции сделует заменить "value" на "e.target.value"
         setTableData( (prevTableData: any) => {
@@ -21,6 +22,18 @@ export default function TableComponent() {
         })
     }
 
+    React.useEffect(() => {
+        if (cellsForChange.every(item => item !== null)) {
+            const firstIndex = cellsForChange[0] ? cellsForChange[0] : 0 // Сучий тайпскрипт не понимает проверки на null, которая на строке выше
+            const secondIndex = cellsForChange[1] ? cellsForChange[1] : 0
+            const cellItem = tableData[firstIndex]
+            tableData[firstIndex] = tableData[secondIndex]
+            tableData[secondIndex] = cellItem
+            setCellsForChange([null, null])
+            setTableData([...tableData])
+        }
+    }, [cellsForChange])
+
     return <>
         <button {...{
             onClick: () => {
@@ -28,6 +41,9 @@ export default function TableComponent() {
             }
         }}> Сохранить внесённые изменения </button>
         <DownloadButtonComponent data={ tableData } />
+        <div>
+            Для изменения порядка строк, нажмите номера тех строк, которые вы хотите поменять местами
+        </div>
         <table>
             <thead>
                 <tr>
@@ -42,7 +58,22 @@ export default function TableComponent() {
                     tableData.map((item: any, index: number) => {
                         const cells = Object.values(item)
                         return <tr key={index}>
-                            <th> { index } </th>
+                            <th>
+                                <button {...{
+                                    onClick: () => {
+                                        if (cellsForChange[0] === null) {
+                                            setCellsForChange([index, null])
+                                        } else {
+                                            const arr = [...cellsForChange]
+                                            arr[1] = index
+                                            setCellsForChange(arr)
+                                        }
+                                    },
+                                    disabled: cellsForChange[0] === index
+                                }}>
+                                    { index }
+                                </button>
+                            </th>
                             {
                                 cells.map((cell: any, index2: number) => {
                                     return <th key={index2}>
